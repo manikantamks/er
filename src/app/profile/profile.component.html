@@ -1,0 +1,68 @@
+<form *ngIf="is_user_exist === false" [formGroup]="profileForm" class="form-container">
+  <mat-card class="profile">
+    <mat-card-header class="header">
+      <!-- class="text-white" -->
+      <mat-card-title >Profile Information</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="row">
+        <div class="col-md-10">
+          <!-- style="color:rgb(247, 244, 244)" -->
+          <mat-form-field appearance="outline" class="full-width"  >
+            <input [(ngModel)]="inp_fullName" formControlName="fullName" matInput placeholder="Full name" required>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-10">
+          <!-- style="color:rgb(247, 244, 244)" -->
+          <mat-form-field appearance="outline" class="full-width"  >
+            <input [(ngModel)]="inp_email"  formControlName="email" matInput placeholder="Email" required>
+          </mat-form-field>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-md-10">
+          <div class="form-group">
+            <mat-form-field [style.width.px]=420 appearance="outline" style="caret-color: rgb(247, 244, 244)">
+              <mat-label >Skills</mat-label>
+              <mat-chip-list #chipList aria-label="skill selection" required>
+                <mat-chip
+                  *ngFor="let skill of skills"
+                  (removed)="remove(skill)">
+                  {{skill}}
+                  <button matChipRemove>
+                    <mat-icon>cancel</mat-icon>
+                  </button>
+                </mat-chip>
+                <input
+                  placeholder="New skill..."
+                  #skillInput
+                  [formControl]="skillCtrl"
+                  [matAutocomplete]="auto"
+                  [matChipInputFor]="chipList"
+                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                  (matChipInputTokenEnd)="add($event)">
+              </mat-chip-list>
+              <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                <mat-option *ngFor="let skill of filteredskills | async" [value]="skill">
+                  {{skill}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+            </div>
+
+        </div>
+      </div>
+
+      
+    </mat-card-content>
+    <mat-card-actions>
+      <button type="button" (click)="store_user()" mat-raised-button class="btn btn-primary butn-cls">Submit</button>
+    </mat-card-actions>
+  </mat-card>
+</form>
+
+<h2 *ngIf="is_user_exist === true">User data Available,Please LogOut to insert new user details</h2>

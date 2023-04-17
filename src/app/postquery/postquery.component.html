@@ -1,0 +1,139 @@
+<!-- <p>postquery works!</p> -->
+<div class="container">
+    <div class="row">
+        <!-- Post Submit Form Start -->
+        <div class="col">
+            <form [formGroup]="profileForm" class="form-container">
+                <mat-card class="profile">
+                  <mat-card-header class="header">
+                    <!-- class="text-white" -->
+                    <mat-card-title >Query Form</mat-card-title>
+                  </mat-card-header>
+                  <mat-card-content>
+                    <div class="row">
+                      <!-- <div class="col-md-10"> -->
+                        <!-- style="color:rgb(247, 244, 244)" -->
+                        <mat-form-field appearance="outline" class="full-width"  >
+                          <input [(ngModel)]="inp_title" formControlName="title" matInput placeholder="Title" required>
+                        </mat-form-field>
+                      </div>
+                    <!-- </div> -->
+                    <div class="row">
+                      <!-- <div class="col-md-10 "> -->
+                        <!-- style="color:rgb(247, 244, 244)" -->
+                        <mat-form-field appearance="outline" class="full-width"  >
+                            <textarea [(ngModel)]="inp_description" style="min-height: 150px;" formControlName="description" matInput placeholder="Description" required></textarea>
+                          <!-- <input > -->
+                        </mat-form-field>
+                      </div>
+                    <!-- </div> -->
+              
+              
+                    <div class="row">
+                      <!-- <div class="col-md-10"> -->
+                        <div class="form-group">
+                          <mat-form-field class="full-width"  appearance="outline" style="caret-color: rgb(201, 118, 118)">
+                            <mat-label >Tags</mat-label>
+                            <mat-chip-list #chipList aria-label="Tag selection" required>
+                              <mat-chip
+                                *ngFor="let tag of tags"
+                                (removed)="remove(tag)">
+                                {{tag}}
+                                <button matChipRemove>
+                                  <mat-icon>cancel</mat-icon>
+                                </button>
+                              </mat-chip>
+                              <input
+                                placeholder="New Tags..."
+                                #tagInput
+                                [formControl]="tagCtrl"
+                                [matAutocomplete]="auto"
+                                [matChipInputFor]="chipList"
+                                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                (matChipInputTokenEnd)="add($event)">
+                            </mat-chip-list>
+                            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                              <mat-option *ngFor="let tag of filteredtags | async" [value]="tag">
+                                {{tag}}
+                              </mat-option>
+                            </mat-autocomplete>
+                          </mat-form-field>
+                          </div>
+              
+                      </div>
+                    <!-- </div> -->
+              
+                    
+                  </mat-card-content>
+                  <mat-card-actions>
+                    <button type="button" (click)="send_query_for_req()" mat-raised-button class="btn btn-primary butn-cls">Submit</button>
+                  </mat-card-actions>
+                </mat-card>
+                <h4  *ngIf="wrong === true" style="color: red;">Enter correct details and submit Query</h4>
+              </form>
+        </div>
+        <!-- Post Submit Form Ends -->
+
+
+
+        <!-- Recommendation Div start -->
+        <div class="col p-2">
+          <div class="row">
+            <h2>Recommended Expert's</h2>
+            <h6 class="p-5" style="color: red;" *ngIf="is_rec_available === false">Submit Query to get Recommended Experts</h6>
+            <h6 *ngIf="is_rec_available === true">Showing Top <span>3</span> from  {{rec_experts.length}} Experts</h6>
+          </div>
+          <div *ngIf="is_rec_available === true" class="row p-5">        
+            <div *ngFor="let user of rec_experts.slice(0, 3);" class="card">
+                <div class="card-body p-3">
+                    <div class="row p-2">
+                        <div  class="col">
+                            <h4>{{user.username }} | Software Developer</h4>
+                        </div>
+          
+                        
+                    </div>
+                    <div class="row p-2">
+                        <div class="col">
+                            <!-- J.kalyan@ibm.com -->
+                            {{user.email}}
+                        </div>
+                        <div class="col">
+                          <!-- Exp : <span style="color: red;">2</span> years -->
+                          Exp : <span style="color: red;">{{user.experiance}}</span> years
+                      </div>
+                        <div class="col">
+                            <!-- Avg. Response time : <span style="color: red;">2</span> days -->
+                            Avg. Response time : <span style="color: red;">{{user.response_time}}</span> days
+                        </div>
+                        
+                    </div>
+                    <div class="row p-2">
+                        <div class="col">
+                            <mat-chip style="background-color: rgb(81, 54, 234); color: white;">&#9734; Expert</mat-chip>
+                        </div>
+                        <div class="col">
+                            <mat-chip style="background-color: rgb(91, 249, 91); color: white;">Active</mat-chip>
+                        </div>
+                        <div class="col">
+                            <img src="https://img.icons8.com/color/48/000000/slack-new.png"/>
+                        </div>
+                        <div class="col">
+                            <button type="button" (click)="openDialog()"  class="btn btn-primary btn-cls">Request</button>
+                          
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            
+
+
+          </div>
+            
+        </div>
+        <!-- Recommendation div Ends -->
+    </div>
+</div>

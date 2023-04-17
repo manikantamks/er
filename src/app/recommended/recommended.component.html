@@ -1,0 +1,29 @@
+<!-- <p>recommended works!</p> -->
+<h2>Recommended Queries</h2>
+<div class="container mt-5">
+    <div class="card mt-3 p-4" *ngFor="let item of rec_queries">
+        <h5 class="card-title mt-2 text-primary"> {{item.title}}</h5>
+        <p class="text-dark">{{item.description}}</p>
+        <div class="row">
+            
+            <mat-chip-list *ngFor="let tag of item.tags" class="col-md-1 p-2">
+                <mat-chip  color="#E6E6FF" selected>{{tag}}</mat-chip>
+              </mat-chip-list>
+              
+            <!-- <div class="col-md-1" *ngFor="let tag of item.tags">
+                <button class="btn btn-secondary">{{tag}}</button> 
+            </div> -->
+
+            <div class="col-md-6 p-2">
+                <h6>Posted on : <span>{{item.posted_on}}</span></h6>
+            </div>
+
+            <div class="col-md-4 p-2">
+                <h6 *ngIf="item.status == 'closed'">Status : <span class="text-danger">Closed</span></h6>
+                <h6 *ngIf="item.status == 'open'">Status : <span class="text-success">Open</span></h6>
+                
+            </div>
+
+        </div>
+    </div>
+</div>
